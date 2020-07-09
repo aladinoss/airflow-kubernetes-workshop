@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-demo
+  namespace: mem-example
+  labels:
+    foo: bar
+spec:
+  containers:
+    - name: memory-demo-ctr
+      resources:
+        limits:
+          memory: "200Mi"
+        requests:
+          memory: "100Mi"
+      env:
+        - name: FOO
+          value: BAR
+        - name: test_value
+          value: test_value
