@@ -1,8 +1,12 @@
-# Launching the Airflow Helm Chart
+## Launching the Airflow Helm Chart
+
+Because Helm 3 no longer has a tiller, we need to create a namespace for our airflow deployment before we use it.
+
+Please feel free to use any namespace of your choosing. All following commands will follow the template
 
 ```shell script
-kubectl create namespace airflow
 NAMESPACE=airflow
+kubectl create namespace $NAMESPACE
 ```
 
 
@@ -14,19 +18,19 @@ helm install airflow \
     .
 ```
 
-
-# Adding DAGs to the Airflow Helm Chart
+## Adding DAGs to the Airflow Helm Chart
 
 ```shell script
 USERNAME=<your username>
 VERSION=0.0.1
 ```
-## Step 1: Create the docker image
+
+### Step 1: Create the docker image
 ```shell script
 docker build -t ${USERNAME}/helm-test-image:${VERSION} .
 ```
 
-## Step 2: Run the image to ensure DAGs have been copies
+### Step 2: Run the image to ensure DAGs have been copies
 
 ```shell script
 docker run -it ${USERNAME}/helm-test-image:${VERSION}  bash
@@ -40,18 +44,8 @@ allowed commands on prod image:
 ```shell script
 docker push ${USERNAME}/helm-test-image:${VERSION} 
 ```
-## Step 3: Install helm
 
-```shell script
-$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
-```
-
-## Step 4: Deploy using helm
-
-We need to set our deployed image to use our test image
-
+### Step 3: Deploy new image using helm
 
 ```shell script
 helm upgrade airflow \
