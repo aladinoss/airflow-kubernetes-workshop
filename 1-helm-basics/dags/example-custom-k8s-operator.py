@@ -34,6 +34,7 @@ class MyK8sOperator(KubernetesPodOperator):
             "foo": "bar",
             "hello": "world",
         }
+        kwargs.pop('labels')
 
         image = "hello-world"
         env_vars = env_vars or {}
